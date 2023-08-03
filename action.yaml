@@ -1,0 +1,23 @@
+name: Export GAC for Planton Cloud Artifact Store
+description: 'Fetches an Artifact Store Key (reader or writer) from Planton Cloud and sets GOOGLE_APPLICATION_CREDENTIALS'
+
+inputs:
+  planton_cloud_artifact_store_id:
+    description: 'The ID of the Artifact Store on Planton Cloud.'
+    required: true
+  key_type:
+    description: 'The type of key to fetch. This can be either "reader" or "writer".'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Fetch and set GOOGLE_APPLICATION_CREDENTIALS
+      run: |
+        artifact_key_json_file="$(pwd)/artifact-key.json"
+        planton artifact-store secrets get-${{ inputs.key_type }}-key \
+          --output-file $artifact_key_json_file \
+          --artifact-store-id ${{ inputs.planton_cloud_artifact_store_id }}
+        echo "fetched artifact ${{ inputs.key_type }} key from planton cloud service"
+        echo "GOOGLE_APPLICATION_CREDENTIALS=$artifact_key_json_file" >> $GITHUB_ENV
+      shell: bash
