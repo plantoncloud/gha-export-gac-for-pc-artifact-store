@@ -1,4 +1,4 @@
-# Export GAC for Planton Cloud Artifact Store
+# Setup GCP Artifact Regsitry Maven Credentials for Planton Cloud Artifact Store
 
 This GitHub action fetches an Artifact Store Key (reader or writer based on the input) from Planton Cloud and sets it as the `GOOGLE_APPLICATION_CREDENTIALS` environment variable. 
 
